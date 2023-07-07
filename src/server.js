@@ -26,7 +26,7 @@ app.use(express.urlencoded({
 
 const db = require('./models/index')
 db.sequelize
-.sync({ force: true })
+.sync()
 .then(() => {
     console.log('database connected');
 }).catch((err) => {
@@ -38,6 +38,9 @@ app.get('/', (req, res) => {
         massage: 'server is running'
     })
 })
+
+require('./routes/auth.route')(app)
+require('./routes/profile.route')(app)
 
 const PORT = 4000
 app.listen(PORT, () => {
