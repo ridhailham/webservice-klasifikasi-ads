@@ -13,10 +13,12 @@ isUserExist = (req, res, next) => {
             return res.status(400).json({
                 massage: 'email is already exists!'
             })
+            
         }
+        next()
     })
 
-    next()
+    
 }
 
 module.exports = {
