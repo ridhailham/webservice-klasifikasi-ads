@@ -1,26 +1,52 @@
-const jwt = require('jsonwebtoken')
-const config = require('../config/auth')
+const jwt = require('jsonwebtoken');
+const config = require('../config/auth.js'); // Pastikan Anda mengimpor konfigurasi yang benar
 
-verifyToken = (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
     let token = req.headers['authorization']
 
-    if(!token) {
+    
+
+    if (!token) {
         return res.status(403).json({
-            massage: 'no token provided'
-        })
+            message: 'Token tidak tersedia'
+        });
     }
 
     jwt.verify(token, config.secret, (err, decoded) => {
-        if(err) {
+        if (err) {
             return res.status(401).json({
-                massage: 'unauthorized'
-            })
+                message: 'Unauthorized'
+            });
         }
-        req.userId = decoded.id
-        next()
-    })
-}
 
-module.exports = {
-    verifyToken
-}
+        // Simpan informasi pengguna yang diperoleh dari token dalam objek `req`
+        req.userId = decoded.id;
+        next();
+    });
+};
+
+
+// const jwt = require('jsonwebtoken')
+// const config = require('../config/auth')
+
+// exports.verifyToken = (req, res, next) => {
+//     const token = req.cookies.refreshToken; // Ubah dari "token" menjadi "refreshToken" sesuai dengan kode login Anda
+
+//     if (!token) {
+//         return res.status(403).json({
+//             message: 'No token provided'
+//         });
+//     }
+
+//     jwt.verify(token, config.secret, (err, decoded) => { // Gunakan kunci yang sama dengan yang digunakan dalam kode login Anda
+//         if (err) {
+//             return res.status(401).json({
+//                 message: 'Unauthorized'
+//             });
+//         }
+//         req.userId = decoded.userId; // Ubah dari "id" menjadi "userId" sesuai dengan payload token Anda
+//         console.log(req.userId);
+//         next();
+//     });
+// };
+

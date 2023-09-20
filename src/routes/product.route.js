@@ -1,4 +1,4 @@
-const middleware = require('../middleware')
+const middleware = require('../middleware/authJwt.js')
 const controller = require('../controllers/product.controller')
 
 module.exports = (app) => {

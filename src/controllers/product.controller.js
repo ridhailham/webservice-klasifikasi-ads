@@ -1,5 +1,5 @@
-const db = require('../models')
-const Product = db.product
+
+const Product = require("../models/ProductsModel.js")
 
 exports.create = (req, res) => {
     if(!req.body.title){

@@ -1,5 +1,5 @@
 const controller = require('../controllers/profile.controller')
-const middleware = require('../middleware')
+const middleware = require('../middleware/authJwt.js')
 
 module.exports = (app) => {
     app.use(function(req, res, next) {
@@ -10,6 +10,6 @@ module.exports = (app) => {
         next()
     })
 
-    app.get('/api/profile', middleware.verifyToken, controller.profile)
+    app.get('/me', middleware.verifyToken, controller.profile)
 
 }

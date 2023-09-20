@@ -1,5 +1,5 @@
-const db = require('../models');
-const User = db.user
+
+const User = require("../models/UsersModel.js")
 
 exports.profile = (req, res) => {
     User.findByPk(req.userId)

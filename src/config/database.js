@@ -8,14 +8,14 @@ const config = {
     port: process.env.DB_PORT, 
     dialect: process.env.DB_DIALECT,
     pool: {
-        max: 5, 
+        max: 100, 
         min: 0,
         acquire: 30000, 
         idle: 10000,
     },
 }
 
-const sequelize = new Sequelize(
+const db = new Sequelize(
     config.database, 
     config.username, 
     config.password,
@@ -32,9 +32,5 @@ const sequelize = new Sequelize(
     }
 )
 
-const db = {}
-
-db.Sequelize = Sequelize
-db.sequelize = sequelize
 
 module.exports = db

@@ -24,9 +24,8 @@ app.use(express.urlencoded({
     })
 )
 
-const db = require('./models/index')
-db.sequelize
-.sync({force : true})
+const sequelize = require('./config/database.js')
+sequelize.sync()
 .then(() => {
     console.log('database connected');
 }).catch((err) => {
