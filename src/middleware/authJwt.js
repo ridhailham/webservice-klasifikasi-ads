@@ -20,7 +20,7 @@ exports.verifyToken = (req, res, next) => {
         }
 
         // Simpan informasi pengguna yang diperoleh dari token dalam objek `req`
-        req.userId = decoded.id;
+        req.email = decoded.email;
         next();
     });
 };

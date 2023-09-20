@@ -1,8 +1,8 @@
 const controller = require('../controllers/auth')
 const middleware = require('../middleware/isUserExist')
 
-module.exports = (app) => {
-    app.use(function(req, res, next) {
+module.exports = (router) => {
+    router.use(function(req, res, next) {
         res.header(
             'Access-Control-Allow-Headers',
             'authorization, Origin, Content-Type, Accept'
@@ -10,6 +10,7 @@ module.exports = (app) => {
         next()
     })
 
-    app.post('/register', middleware.isUserExist, controller.register)
-    app.post('/login', controller.login)
+    router.post('/register', middleware.isUserExist, controller.register)
+    router.post('/login', controller.login)
+    router.delete('/logout', controller.logout)
 }

@@ -2,17 +2,27 @@
 const User = require("../models/UsersModel.js")
 
 exports.profile = (req, res) => {
-    User.findByPk(req.userId)
+    User.findOne({
+        where: {
+            email: req.email
+        }
+    })
         .then((user) => {
-            return res.status(200).json({
-                id: user.id,
+            if(!user) {
+                return res.status(404).json({
+                    message: 'pengguna tidak ditemukan'
+                })
+            }
+
+            res.status(200).json({
+                uuid: user.uuid,
                 name: user.name,
-                phone: user.phone,
+                
                 email: user.email
             })
         }).catch((err) => {
-            return res.status(500).json({
-                massage: err.massage
+            res.status(500).json({
+                massage: err            
             })
         });
 }

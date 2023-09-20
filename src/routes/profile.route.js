@@ -1,8 +1,8 @@
 const controller = require('../controllers/profile.controller')
 const middleware = require('../middleware/authJwt.js')
 
-module.exports = (app) => {
-    app.use(function(req, res, next) {
+module.exports = (router) => {
+    router.use(function(req, res, next) {
         res.header(
             'Access-Control-Allow-Headers',
             'authorization, Origin, Content-Type, Accept'
@@ -10,6 +10,6 @@ module.exports = (app) => {
         next()
     })
 
-    app.get('/me', middleware.verifyToken, controller.profile)
+    router.get('/me', middleware.verifyToken, controller.profile)
 
 }

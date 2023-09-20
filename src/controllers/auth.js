@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
 
-exports.register = (req, res) => {
-    User.create({
+exports.register = async(req, res) => {
+    await User.create({
         name: req.body.name, 
         
         email: req.body.email,
@@ -16,7 +16,7 @@ exports.register = (req, res) => {
     .then((user) => {
         res.status(201).json({
             massage: 'registered successful',
-            ...user.data
+            
         })
     }).catch((err) => {
         res.status(500).json({
@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
         const accessToken = jwt.sign({ userId, name, email, role },
             config.secret, // Secret key
             {
-                expiresIn: '3h', // Token expiration time (adjust as needed)
+                expiresIn: '4h', // Token expiration time (adjust as needed)
             }
         );
 
@@ -71,19 +71,17 @@ exports.login = async (req, res) => {
         //     }
         // });
 
-        req.userId = decode.id
-
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
-        });
+        // res.cookie("refreshToken", refreshToken, {
+        //     httpOnly: true,
+        //     maxAge: 12,
+        // });
 
         res.status(200).json({
             uuid: user.uuid,
             name: user.name,
             email: user.email,
             accessToken: accessToken,
-            refreshToken: refreshToken // Menambahkan refreshToken dalam respons
+            
         });
     } catch (err) {
         console.error(err);
@@ -92,6 +90,21 @@ exports.login = async (req, res) => {
         });
     }
 }
+
+exports.logout = (req, res) => {
+    
+    // Di sini, Anda bisa menghapus token dari sisi klien, misalnya dengan menghapus cookie
+    // atau menghapus token yang disimpan di penyimpanan lokal pada sisi klien.
+
+    // Misalnya, jika Anda menggunakan cookie, Anda bisa menghapus cookie seperti ini:
+    res.clearCookie("accessToken");
+
+    // Jika Anda menggunakan penyimpanan lokal di sisi klien (localStorage atau sessionStorage), Anda bisa menghapusnya seperti ini:
+    // localStorage.removeItem('accessToken');
+
+    res.status(200).json({ message: 'Logout berhasil' });
+};
+
 
 
 
